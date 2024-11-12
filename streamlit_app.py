@@ -3,12 +3,15 @@ from fpdf import FPDF
 from datetime import datetime
 
 # Function to create PDF with the updated document format
-def create_pdf(date, salutation1, full_name, designation, company_name, city_state, salutation2, po_id, custom_line, item_details):
+def create_pdf(date, salutation1, full_name, designation, company_name, city_state, salutation2, po_id, custom_line, item_details, left_margin):
     pdf = FPDF()
     pdf.add_page()
 
     # Setting font
     pdf.set_font("Arial", size=10)
+
+    # Set custom left margin
+    pdf.set_left_margin(left_margin)  # Adding left margin space
 
     # Adding top gap
     pdf.ln(50)  # Adjust the value as needed to match your desired gap
@@ -76,6 +79,9 @@ with st.form("pdf_form"):
     # Select number of items to display
     num_items = st.selectbox("Number of items to include", [1, 2, 3, 4, 5, 6])
 
+    # Select left margin (customizable gap)
+    left_margin = st.number_input("Left Margin (gap) in mm", value=10.0, min_value=0.0, step=0.1)
+
     # Conditional item inputs
     item_details = {}
     if num_items >= 1:
@@ -110,8 +116,8 @@ if submitted:
     # Convert date to string format
     date_str = date.strftime("%d/%m/%Y")
     
-    # Create PDF
-    pdf_path = create_pdf(date_str, salutation1, full_name, designation, company_name, city_state, salutation2, po_id, custom_line, item_details)
+    # Create PDF with the left margin value
+    pdf_path = create_pdf(date_str, salutation1, full_name, designation, company_name, city_state, salutation2, po_id, custom_line, item_details, left_margin)
     
     # Display the link to download the PDF
     with open(pdf_path, "rb") as f:
