@@ -2,8 +2,8 @@ import streamlit as st
 from fpdf import FPDF
 from datetime import datetime
 
-# Function to create PDF with the new document format
-def create_pdf(date, salutation1, full_name, designation, company_name, city_state, salutation2, po_id, item_a, item_b, item_c, item_d):
+# Function to create PDF with the updated document format
+def create_pdf(date, salutation1, full_name, designation, company_name, city_state, salutation2, po_id, custom_line, item_a_code, item_a_weight, item_b_code, item_b_weight, item_c_code, item_c_weight, item_d_code, item_d_weight):
     pdf = FPDF()
     pdf.add_page()
 
@@ -31,16 +31,16 @@ def create_pdf(date, salutation1, full_name, designation, company_name, city_sta
     pdf.set_font("Arial", size=10)
     pdf.cell(200, 10, txt=f"Dear {salutation2},", ln=True)
     pdf.ln(5)
-    pdf.cell(200, 10, txt="Sending you Pre-Shipment sample of the following:", ln=True)
+    pdf.cell(200, 10, txt=custom_line, ln=True)
     pdf.ln(5)
     pdf.cell(200, 10, txt=f"P.O. ID: {po_id}", ln=True)
     pdf.ln(5)
     
     # List items with alphanumeric codes and weights
-    pdf.cell(200, 5, txt=f"A) {item_a}", ln=True)
-    pdf.cell(200, 5, txt=f"B) {item_b}", ln=True)
-    pdf.cell(200, 5, txt=f"C) {item_c}", ln=True)
-    pdf.cell(200, 5, txt=f"D) {item_d}", ln=True)
+    pdf.cell(200, 5, txt=f"A) {item_a_code} - {item_a_weight} MT", ln=True)
+    pdf.cell(200, 5, txt=f"B) {item_b_code} - {item_b_weight} MT", ln=True)
+    pdf.cell(200, 5, txt=f"C) {item_c_code} - {item_c_weight} MT", ln=True)
+    pdf.cell(200, 5, txt=f"D) {item_d_code} - {item_d_weight} MT", ln=True)
     pdf.ln(10)
     
     pdf.cell(200, 10, txt="Kindly acknowledge receipt of the same.", ln=True)
@@ -72,11 +72,19 @@ with st.form("pdf_form"):
     salutation2 = st.selectbox("Salutation2", ["Sir", "Ma’am"])
     po_id = st.text_input("P.O. ID")
     
-    # Item entries based on document requirements
-    item_a = st.text_input("Item A (Format: [Enter Alphanumbers]-[Enter Number]MT)")
-    item_b = st.text_input("Item B (Same format as A)")
-    item_c = st.text_input("Item C (Same format as A)")
-    item_d = st.text_input("Item D (Same format as A)")
+    # Custom line input for "Pre-Shipment sample..."
+    custom_line = st.text_input("Custom line for Pre-Shipment sample (e.g., 'Sending you Pre-Shipment sample of XYZ product')")
+
+    # Item entries with separate fields for codes and weights
+    st.subheader("Item Details")
+    item_a_code = st.text_input("Item A Code")
+    item_a_weight = st.number_input("Item A Weight (MT)", min_value=0.0, step=0.1)
+    item_b_code = st.text_input("Item B Code")
+    item_b_weight = st.number_input("Item B Weight (MT)", min_value=0.0, step=0.1)
+    item_c_code = st.text_input("Item C Code")
+    item_c_weight = st.number_input("Item C Weight (MT)", min_value=0.0, step=0.1)
+    item_d_code = st.text_input("Item D Code")
+    item_d_weight = st.number_input("Item D Weight (MT)", min_value=0.0, step=0.1)
     
     # Submit button
     submitted = st.form_submit_button("Generate PDF")
@@ -86,7 +94,7 @@ if submitted:
     date_str = date.strftime("%d/%m/%Y")
     
     # Create PDF
-    pdf_path = create_pdf(date_str, salutation1, full_name, designation, company_name, city_state, salutation2, po_id, item_a, item_b, item_c, item_d)
+    pdf_path = create_pdf(date_str, salutation1, full_name, designation, company_name, city_state, salutation2, po_id, custom_line, item_a_code, item_a_weight, item_b_code, item_b_weight, item_c_code, item_c_weight, item_d_code, item_d_weight)
     
     # Display the link to download the PDF
     with open(pdf_path, "rb") as f:
