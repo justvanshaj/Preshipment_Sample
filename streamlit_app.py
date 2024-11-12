@@ -80,7 +80,7 @@ with st.form("pdf_form"):
     num_items = st.selectbox("Number of items to include", [1, 2, 3, 4, 5, 6])
 
     # Select left margin (customizable gap)
-    left_margin = st.number_input("Left Margin (gap) in mm", value=10.0, min_value=0.0, step=0.1)
+    left_margin = st.number_input("Left Margin (gap) in mm", value=20.0, min_value=5.0, step=0.1)
 
     # Conditional item inputs
     item_details = {}
