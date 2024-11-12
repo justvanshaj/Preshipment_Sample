@@ -72,8 +72,8 @@ with st.form("pdf_form"):
     salutation2 = st.selectbox("Salutation2", ["Sir", "Ma’am"])
     po_id = st.text_input("P.O. ID")
     
-    # Custom line input for "Pre-Shipment sample..."
-    custom_line = st.text_input("Custom line for Pre-Shipment sample (e.g., 'Sending you Pre-Shipment sample of XYZ product')")
+    # Custom line input for "Pre-Shipment sample..." with default text
+    custom_line = st.text_input("Custom line for Pre-Shipment sample", value="Sending you Pre-Shipment sample of")
 
     # Item entries with separate fields for codes and weights
     st.subheader("Item Details")
