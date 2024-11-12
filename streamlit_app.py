@@ -2,8 +2,8 @@ import streamlit as st
 from fpdf import FPDF
 from datetime import datetime
 
-# Function to create PDF with top gap and alignment for "Kindly Att." and Date
-def create_pdf(date, salutation1, full_name, designation, company_name, city_state, salutation2, guar_type_1, guar_weight_1, guar_type_2, guar_weight_2):
+# Function to create PDF with the new document format
+def create_pdf(date, salutation1, full_name, designation, company_name, city_state, salutation2, po_id, item_a, item_b, item_c, item_d):
     pdf = FPDF()
     pdf.add_page()
 
@@ -15,7 +15,7 @@ def create_pdf(date, salutation1, full_name, designation, company_name, city_sta
 
     # Adding "Kindly Att." on the left and Date on the right on the same line
     pdf.cell(0, 10, txt="Kindly Att.", ln=False, align='L')
-    pdf.cell(0, 10, txt=f"Date-{date}", ln=True, align='R')
+    pdf.cell(0, 10, txt=f"Date: {date}", ln=True, align='R')
     
     # Adding the rest of the content
     pdf.ln(10)  # Line break after the first line
@@ -23,22 +23,27 @@ def create_pdf(date, salutation1, full_name, designation, company_name, city_sta
     # Bold Full Name and City State
     pdf.set_font("Arial", style='B', size=10)
     pdf.cell(200, 5, txt=f"{salutation1} {full_name},", ln=True)
-    pdf.cell(200, 5, txt=designation, ln=True)
+    pdf.cell(200, 5, txt=f"({designation})", ln=True)
     pdf.cell(200, 5, txt=company_name + ",", ln=True)
     pdf.cell(200, 5, txt=city_state, ln=True)
     pdf.ln(4)
 
-    pdf.set_font("Arial", size=0)
+    pdf.set_font("Arial", size=10)
     pdf.cell(200, 10, txt=f"Dear {salutation2},", ln=True)
     pdf.ln(5)
-    pdf.cell(200, 10, txt="As per your requirement we are sending you sample of -", ln=True)
+    pdf.cell(200, 10, txt="Sending you Pre-Shipment sample of the following:", ln=True)
+    pdf.ln(5)
+    pdf.cell(200, 10, txt=f"P.O. ID: {po_id}", ln=True)
     pdf.ln(5)
     
-    pdf.cell(200, 5, txt=f"A) Guar {guar_type_1} - {guar_weight_1}KG.", ln=True)
-    pdf.cell(200, 5, txt=f"B) Guar {guar_type_2} - {guar_weight_2}KG.", ln=True)
+    # List items with alphanumeric codes and weights
+    pdf.cell(200, 5, txt=f"A) {item_a}", ln=True)
+    pdf.cell(200, 5, txt=f"B) {item_b}", ln=True)
+    pdf.cell(200, 5, txt=f"C) {item_c}", ln=True)
+    pdf.cell(200, 5, txt=f"D) {item_d}", ln=True)
     pdf.ln(10)
     
-    pdf.cell(200, 10, txt="Kindly acknowledge me receipt of the same.", ln=True)
+    pdf.cell(200, 10, txt="Kindly acknowledge receipt of the same.", ln=True)
     pdf.ln(10)
     
     # Bold Authorized Signatory and Company Name
@@ -65,10 +70,13 @@ with st.form("pdf_form"):
     company_name = st.text_input("Company Name")
     city_state = st.text_input("City, State")
     salutation2 = st.selectbox("Salutation2", ["Sir", "Ma’am"])
-    guar_type_1 = st.selectbox("Guar Type A", ["Churi", "Korma"])
-    guar_weight_1 = st.number_input("Guar Weight A (KG)", min_value=0)
-    guar_type_2 = st.selectbox("Guar Type B", ["Churi", "Korma"])
-    guar_weight_2 = st.number_input("Guar Weight B (KG)", min_value=0)
+    po_id = st.text_input("P.O. ID")
+    
+    # Item entries based on document requirements
+    item_a = st.text_input("Item A (Format: [Enter Alphanumbers]-[Enter Number]MT)")
+    item_b = st.text_input("Item B (Same format as A)")
+    item_c = st.text_input("Item C (Same format as A)")
+    item_d = st.text_input("Item D (Same format as A)")
     
     # Submit button
     submitted = st.form_submit_button("Generate PDF")
@@ -78,7 +86,7 @@ if submitted:
     date_str = date.strftime("%d/%m/%Y")
     
     # Create PDF
-    pdf_path = create_pdf(date_str, salutation1, full_name, designation, company_name, city_state, salutation2, guar_type_1, guar_weight_1, guar_type_2, guar_weight_2)
+    pdf_path = create_pdf(date_str, salutation1, full_name, designation, company_name, city_state, salutation2, po_id, item_a, item_b, item_c, item_d)
     
     # Display the link to download the PDF
     with open(pdf_path, "rb") as f:
