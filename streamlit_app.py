@@ -65,7 +65,7 @@ st.title("Generate a Custom PDF Letter")
 # Form to collect data
 with st.form("pdf_form"):
     date = st.date_input("Date", value=datetime.today())
-    salutation1 = st.selectbox("Salutation1", ["Sir", "Ma’am", "Mr.", "Mrs."])  # Added Mr./Mrs. options
+    salutation1 = st.selectbox("Salutation1", ["Mr.", "Mrs."])  # Added Mr./Mrs. options
     full_name = st.text_input("Full Name")
     designation = st.text_input("Designation")
     company_name = st.text_input("Company Name")
@@ -74,7 +74,7 @@ with st.form("pdf_form"):
     po_id = st.text_input("P.O. ID")
     
     # Custom line input for "Pre-Shipment sample..." with default text
-    custom_line = st.text_input("Custom line for Pre-Shipment sample", value="Sending you Pre-Shipment sample of")
+    custom_line = st.text_input("Pre-Shipment Sample Properties:", value="Sending you Pre-Shipment sample of")
 
     # Select number of items to display
     num_items = st.selectbox("Number of items to include", [1, 2, 3, 4, 5, 6])
