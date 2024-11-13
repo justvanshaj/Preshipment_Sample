@@ -101,7 +101,7 @@ with st.form("pdf_form"):
     custom_line = st.text_input("Pre-Shipment Sample Properties:", value="Sending you Pre-Shipment sample of")
 
     # Select number of items to display
-    num_items = st.selectbox("Number of items to include", [1, 2, 3, 4, 5, 6])
+    num_items = st.selectbox("Number of items to include (press generate pdf to update)", [1, 2, 3, 4, 5, 6])
 
     # Select left margin (customizable gap)
     left_margin = st.number_input("Left Margin (gap) in mm", value=25.0, min_value=5.0, step=0.1)
