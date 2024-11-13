@@ -18,13 +18,28 @@ header {visibility: hidden;}
 """
 st.markdown(hide_st_style, unsafe_allow_html=True)
 
+# Pre-filled data dictionary
+pre_filled_data = {
+    "001": {
+        "full_name": "John Doe",
+        "designation": "Manager",
+        "company_name": "Example Corp",
+        "city_state": "New York, NY",
+        "po_id": "PO12345"
+    },
+    "002": {
+        "full_name": "Jane Smith",
+        "designation": "Director",
+        "company_name": "ABC Industries",
+        "city_state": "Los Angeles, CA",
+        "po_id": "PO67890"
+    },
+    # Add more entries as needed
+}
+
 # Define session state to manage navigation between screens
 if 'screen' not in st.session_state:
     st.session_state.screen = 'home'
-
-# Function to navigate to a specific screen
-def navigate_to(screen):
-    st.session_state.screen = screen
 
 # Function to create PDF with the updated document format
 def create_pdf(date, salutation1, full_name, designation, company_name, city_state, salutation2, po_id, custom_line, item_details, left_margin):
@@ -90,12 +105,25 @@ st.title("PSS PDF MAKER")
 with st.form("pdf_form"):
     date = st.date_input("Date", value=datetime.today())
     salutation1 = st.selectbox("Salutation1", ["Mr.", "Mrs."])  # Added Mr./Mrs. options
-    full_name = st.text_input("Full Name")
-    designation = st.text_input("Designation")
-    company_name = st.text_input("Company Name")
-    city_state = st.text_input("City, State")
+    
+    # Code input for auto-fill functionality
+    user_code = st.text_input("Enter Code (e.g., '001') to auto-fill details")
+    
+    # Auto-fill based on code
+    if user_code in pre_filled_data:
+        full_name = st.text_input("Full Name", value=pre_filled_data[user_code]["full_name"])
+        designation = st.text_input("Designation", value=pre_filled_data[user_code]["designation"])
+        company_name = st.text_input("Company Name", value=pre_filled_data[user_code]["company_name"])
+        city_state = st.text_input("City, State", value=pre_filled_data[user_code]["city_state"])
+        po_id = st.text_input("P.O. ID", value=pre_filled_data[user_code]["po_id"])
+    else:
+        full_name = st.text_input("Full Name")
+        designation = st.text_input("Designation")
+        company_name = st.text_input("Company Name")
+        city_state = st.text_input("City, State")
+        po_id = st.text_input("P.O. ID")
+    
     salutation2 = st.selectbox("Salutation2", ["Sir", "Ma’am"])
-    po_id = st.text_input("P.O. ID")
     
     # Custom line input for "Pre-Shipment sample..." with default text
     custom_line = st.text_input("Pre-Shipment Sample Properties:", value="Sending you Pre-Shipment sample of")
