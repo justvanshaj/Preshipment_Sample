@@ -2,6 +2,30 @@ import streamlit as st
 from fpdf import FPDF
 from datetime import datetime
 
+# Set the page configuration (title and favicon)
+st.set_page_config(
+    page_title="PSS Maker",
+    page_icon="favicon.png"
+)
+
+# Hide Streamlit's default UI components
+hide_st_style = """
+<style>
+#MainMenu {visibility: hidden;}
+footer {visibility: hidden;}
+header {visibility: hidden;}
+</style>
+"""
+st.markdown(hide_st_style, unsafe_allow_html=True)
+
+# Define session state to manage navigation between screens
+if 'screen' not in st.session_state:
+    st.session_state.screen = 'home'
+
+# Function to navigate to a specific screen
+def navigate_to(screen):
+    st.session_state.screen = screen
+
 # Function to create PDF with the updated document format
 def create_pdf(date, salutation1, full_name, designation, company_name, city_state, salutation2, po_id, custom_line, item_details, left_margin):
     pdf = FPDF()
