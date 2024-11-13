@@ -60,7 +60,7 @@ def create_pdf(date, salutation1, full_name, designation, company_name, city_sta
     return pdf_output
 
 # Streamlit App
-st.title("Generate a Custom PDF Letter")
+st.title("PSS PDF MAKER")
 
 # Form to collect data
 with st.form("pdf_form"):
