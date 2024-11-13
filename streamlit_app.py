@@ -21,11 +21,11 @@ st.markdown(hide_st_style, unsafe_allow_html=True)
 # Pre-filled data dictionary
 pre_filled_data = {
     "001": {
-        "full_name": "John Doe",
-        "designation": "Manager",
-        "company_name": "Example Corp",
-        "city_state": "New York, NY",
-        "po_id": "PO12345"
+        "full_name": "Mahendra Tripathi",
+        "designation": "Country General Manager & Director",
+        "company_name": "Laberti India Pvt. Ltd.",
+        "city_state": "Rajkot, Gujarat",
+        "po_id": "LIPL2024250169"
     },
     "002": {
         "full_name": "Jane Smith",
@@ -107,7 +107,7 @@ with st.form("pdf_form"):
     salutation1 = st.selectbox("Salutation1", ["Mr.", "Mrs."])  # Added Mr./Mrs. options
     
     # Code input for auto-fill functionality
-    user_code = st.text_input("Enter Code (e.g., '001') to auto-fill details")
+    user_code = st.text_input("Enter Code to auto-fill details")
     
     # Auto-fill based on code
     if user_code in pre_filled_data:
