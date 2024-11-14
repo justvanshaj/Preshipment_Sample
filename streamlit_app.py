@@ -23,7 +23,7 @@ pre_filled_data = {
     "001": {
         "full_name": "Mahendra Tripathi",
         "designation": "Country General Manager & Director",
-        "company_name": "Laberti India Pvt. Ltd.",
+        "company_name": "Lamberti India Pvt. Ltd.",
         "city_state": "Rajkot, Gujarat",
         "po_id": "LIPL2024250169"
     },
