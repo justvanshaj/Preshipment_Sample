@@ -25,15 +25,16 @@ pre_filled_data = {
         "designation": "Country General Manager & Director",
         "company_name": "Lamberti India Pvt. Ltd.",
         "city_state": "Rajkot, Gujarat",
-        "po_id": "LIPL2024250169"
+        "po_id": "LIPL2024250169",
+        "custom_message": "Sending you Pre-Shipment sample of Guar Gum Powder Modified."
     },
     "002": {
-        "full_name": "Jane Smith",
-        "designation": "Director",
-        "company_name": "ABC Industries",
-        "city_state": "Los Angeles, CA",
-        "po_id": "PO67890",
-        "custom_message": "This is my custom message for pre-shipment sample properties."
+        "full_name": "Mahendra Tripathi",
+        "designation": "Country General Manager & Director",
+        "company_name": "Lamberti India Pvt. Ltd.",
+        "city_state": "Rajkot, Gujarat",
+        "po_id": "LIPL2024250169",
+        "custom_message": "Sending you Pre-Shipment sample of FARINA GUAR 200 MESH 5000 T/C."
     },
     # Add more entries as needed
 }
