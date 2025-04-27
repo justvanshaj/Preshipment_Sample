@@ -2,6 +2,7 @@ import streamlit as st
 from fpdf import FPDF
 from datetime import datetime
 import re
+import os
 
 # Set the page configuration
 st.set_page_config(
@@ -31,7 +32,7 @@ pre_filled_data = {
         "designation": "Country General Manager & Director",
         "company_name": "Lamberti India Pvt. Ltd.",
         "city_state": "Rajkot, Gujarat",
-        "po_id": "LIPL2024250169",
+        "po_id": "LIPL2024250427",
         "custom_message": "Sending you Pre-Shipment sample of Guar Gum Powder Modified."
     },
     "002": {
@@ -39,18 +40,23 @@ pre_filled_data = {
         "designation": "Country General Manager & Director",
         "company_name": "Lamberti India Pvt. Ltd.",
         "city_state": "Rajkot, Gujarat",
-        "po_id": "LIPL2024250427",
+        "po_id": "LIPL2024250383",
         "custom_message": "Sending you Pre-Shipment sample of FARINA GUAR 200 MESH 5000 T/C."
     }
 }
 
 # Function to create PDF and return it as bytes
-def create_pdf(date, salutation1, full_name, designation, company_name, city_state, salutation2, po_id, custom_line, item_details, left_margin):
+def create_pdf(date, salutation1, full_name, designation, company_name, city_state, salutation2, po_id, custom_line, item_details, left_margin, letterhead_path=None):
     pdf = FPDF()
     pdf.add_page()
     pdf.set_font("Arial", size=10)
     pdf.set_left_margin(left_margin)
-    pdf.ln(50)
+    
+    # Insert letterhead if available
+    if letterhead_path and os.path.exists(letterhead_path):
+        pdf.image(letterhead_path, x=0, y=0, w=210)  # A4 width = 210mm
+
+    pdf.ln(50)  # Move cursor down after the header
 
     pdf.cell(0, 10, txt="Kindly Att.", ln=False, align='L')
     pdf.cell(0, 10, txt=f"Date: {date}", ln=True, align='R')
@@ -129,6 +135,7 @@ with st.form("pdf_form"):
 if submitted:
     date_str = date.strftime("%d/%m/%Y")
     left_margin = 25.0
+    letterhead_path = "letterhead.png"  # <-- YOUR letterhead file here
 
     # File naming
     suffix = "MOD" if user_code == "001" else "FAR" if user_code == "002" else "GEN"
@@ -137,7 +144,7 @@ if submitted:
     filename = f"PSS LIPL {suffix} {po_suffix} {int(current_container)} of {int(total_containers)}.pdf"
 
     # Create PDF and store in session
-    pdf_bytes = create_pdf(date_str, salutation1, full_name, designation, company_name, city_state, salutation2, po_id, custom_line, item_details, left_margin)
+    pdf_bytes = create_pdf(date_str, salutation1, full_name, designation, company_name, city_state, salutation2, po_id, custom_line, item_details, left_margin, letterhead_path)
     st.session_state.pdf_bytes = pdf_bytes
     st.session_state.filename = filename
 
